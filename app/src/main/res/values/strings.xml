@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">TP2-Capitales</string>
+    <string name="title_activity_cargar_capital">CargarCapital</string>
+    <string name="title_activity_ver_capital">VerCapital</string>
+    <string name="title_activity_eliminar_capital">EliminarCapital</string>
 </resources>

@@ -13,6 +13,21 @@
         android:theme="@style/Theme.TP2Capitales"
         tools:targetApi="31">
         <activity
+            android:name=".EliminarCapital"
+            android:exported="false"
+            android:label="@string/title_activity_eliminar_capital"
+            android:theme="@style/Theme.TP2Capitales" />
+        <activity
+            android:name=".VerCapital"
+            android:exported="false"
+            android:label="@string/title_activity_ver_capital"
+            android:theme="@style/Theme.TP2Capitales" />
+        <activity
+            android:name=".CargarCapital"
+            android:exported="false"
+            android:label="@string/title_activity_cargar_capital"
+            android:theme="@style/Theme.TP2Capitales" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

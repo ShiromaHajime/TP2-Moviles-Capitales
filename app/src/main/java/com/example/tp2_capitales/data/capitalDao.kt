@@ -4,27 +4,31 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Insert
 import androidx.room.Delete
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CapitalDao {
     @Query("SELECT * FROM capital")
-    fun getAll(): List<Capital>
+    fun getAll(): Flow<List<Capital>>
 
     @Query("SELECT * FROM capital WHERE capitalid IN (:capitalIds)")
-    fun loadAllByIds(capitalIds: IntArray): List<Capital>
+    fun loadAllByIds(capitalIds: IntArray): Flow<List<Capital>>
 
-    @Query("SELECT * FROM capital WHERE nombre_capital LIKE :nombre LIMIT 1")
-    fun findByName(nombre: String): Capital
+    @Query("SELECT * FROM capital WHERE nombre_capital = :nombre")
+    fun findByName(nombre: String): Flow<List<Capital>>
+
+    @Query("SELECT * FROM capital WHERE pais_origen = :pais")
+    fun loadAllByCountry(pais: String): Flow<List<Capital>>
 
     @Insert
-    fun insertAll(vararg users: Capital)
+    suspend fun insertAll(vararg capitals: Capital)
 
     @Query("UPDATE capital SET cantidad_poblacion = :nuevaPoblacion WHERE nombre_capital = :nombre")
-    fun updatePopulationByName(nombre: String, nuevaPoblacion: Int)
+    suspend fun updatePopulationByName(nombre: String, nuevaPoblacion: Int)
 
     @Query("DELETE FROM capital WHERE nombre_capital = :nombre")
-    fun deleteByName(nombre: String)
+    suspend fun deleteByName(nombre: String)
 
     @Query("DELETE FROM capital WHERE pais_origen = :pais")
-    fun deleteAllByCountry(pais: String)
+    suspend fun deleteAllByCountry(pais: String)
 }

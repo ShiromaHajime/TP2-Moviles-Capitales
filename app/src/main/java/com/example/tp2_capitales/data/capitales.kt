@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Capital(
-    @PrimaryKey val capitalid: Int,
+    @PrimaryKey(autoGenerate = true) val capitalid: Int = 0,
     @ColumnInfo(name = "nombre_capital") val nombreCapital: String?,
     @ColumnInfo(name = "pais_origen") val paisOrigen: String?,
     @ColumnInfo(name = "cantidad_poblacion") val cantidad_poblacion: Int?

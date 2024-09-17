@@ -25,6 +25,6 @@ interface CapitalDao {
     @Query("DELETE FROM capital WHERE nombre_capital = :nombre")
     fun deleteByName(nombre: String)
 
-    @Query("DELETE FROM capital WHERE pais = :pais")
+    @Query("DELETE FROM capital WHERE pais_origen = :pais")
     fun deleteAllByCountry(pais: String)
 }

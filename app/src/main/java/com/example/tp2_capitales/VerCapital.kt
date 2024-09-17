@@ -36,21 +36,26 @@ fun VerCapitalForm(modifier: Modifier = Modifier) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current // Contexto dentro del @Composable
 
-    // State para almacenar la lista de capitales encontradas
     var capitalesEncontradas by remember { mutableStateOf<List<Capital>?>(null) }
 
-    // Utilizamos un Box para permitir centralizar el contenido y alinear el botón inferior
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Columna centralizada
         Column(
             modifier = Modifier
                 .align(Alignment.Center) // Alinea el contenido centralmente
                 .fillMaxWidth()
         ) {
+            Text(
+                text = "Consultar una Capital",
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp)
+            )
             OutlinedTextField(
                 value = nombreCapital,
                 onValueChange = { nombreCapital = it },
@@ -63,9 +68,7 @@ fun VerCapitalForm(modifier: Modifier = Modifier) {
                     if (nombreCapital.isNotEmpty()) {
                         coroutineScope.launch {
                             val db = AppDatabase.getInstance(context)
-                            // Usar findByName que retorna un Flow<List<Capital>>
                             val capitalesFlow = db.capitalDao().findByName(nombreCapital)
-                            // Recoger el resultado de la lista
                             val capitales = capitalesFlow.firstOrNull()
                             capitalesEncontradas = capitales
                         }
@@ -89,26 +92,17 @@ fun VerCapitalForm(modifier: Modifier = Modifier) {
             } ?: Text("No se ha realizado ninguna búsqueda")
         }
 
-        // Botón en el margen inferior
         Button(
             onClick = {
                 val intent = Intent(context, MainActivity::class.java)
                 context.startActivity(intent)
             },
             modifier = Modifier
-                .align(Alignment.BottomCenter) // Alinea el botón en la parte inferior
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
             Text("Volver al inicio")
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun VerCapitalPreview() {
-    TP2CapitalesTheme {
-        VerCapitalForm()
     }
 }

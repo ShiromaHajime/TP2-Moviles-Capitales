@@ -50,8 +50,16 @@ fun CapitalForm(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
+                Text(
+                    text = "Cargar una Capital",
+                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 16.dp)
+                )
                 OutlinedTextField(
                     value = nombreCapital,
                     onValueChange = { nombreCapital = it },
@@ -76,20 +84,23 @@ fun CapitalForm(modifier: Modifier = Modifier) {
                 Button(
                     onClick = {
                         if (nombreCapital.isNotEmpty() && paisOrigen.isNotEmpty() && cantidadPoblacion.toIntOrNull() != null) {
-                            val capital = Capital(0, nombreCapital, paisOrigen, cantidadPoblacion.toInt())
+                            val capital =
+                                Capital(0, nombreCapital, paisOrigen, cantidadPoblacion.toInt())
                             coroutineScope.launch {
                                 val db = AppDatabase.getInstance(context)
                                 val existingCapitalFlow = db.capitalDao().findByName(nombreCapital)
 
-                                // Recoger el primer valor del flujo
                                 val existingCapitals = existingCapitalFlow.first()
 
-                                // Verificar si existe una capital en la lista con el mismo nombre y país
-                                val matchingCapital = existingCapitals?.firstOrNull { it.paisOrigen == paisOrigen }
+                                val matchingCapital =
+                                    existingCapitals?.firstOrNull { it.paisOrigen == paisOrigen }
 
                                 if (matchingCapital != null) {
                                     snackbarHostState.showSnackbar("Ya existe la capital en el país indicado")
                                 } else {
+                                    nombreCapital = ""
+                                    paisOrigen = ""
+                                    cantidadPoblacion = ""
                                     db.capitalDao().insertAll(capital)
                                     snackbarHostState.showSnackbar("Capital cargada correctamente")
                                 }
@@ -106,7 +117,6 @@ fun CapitalForm(modifier: Modifier = Modifier) {
                 }
             }
 
-            // Botón en el margen inferior
             Button(
                 onClick = {
                     val intent = Intent(context, MainActivity::class.java)
@@ -114,19 +124,11 @@ fun CapitalForm(modifier: Modifier = Modifier) {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(16.dp) // Padding opcional
+                    .padding(16.dp)
                     .fillMaxWidth()
             ) {
                 Text("Volver al inicio")
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CapitalFormPreview() {
-    TP2CapitalesTheme {
-        CapitalForm()
     }
 }

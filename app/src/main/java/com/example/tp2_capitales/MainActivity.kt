@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
     fun HomePage() {
         var capitals by remember { mutableStateOf<List<Capital>>(emptyList()) }
         val coroutineScope = rememberCoroutineScope()
-        val context = LocalContext.current // Contexto dentro del @Composable
+        val context = LocalContext.current
 
         LaunchedEffect(Unit) {
             coroutineScope.launch {
@@ -49,9 +50,16 @@ class MainActivity : ComponentActivity() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center
         ) {
+            Text(
+                text = "Trabajo Práctico 2 - Capitales",
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 32.dp)
+            )
             Button(
                 onClick = {
-                    // Navegar a la pantalla de com.example.tp2_capitales.com.example.tp2_capitales.CargarCapital usando Intent
                     val intent = Intent(this@MainActivity, CargarCapital::class.java)
                     startActivity(intent)
                 },
@@ -62,7 +70,6 @@ class MainActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    // Navegar a la pantalla de VerCapital
                     val intent = Intent(this@MainActivity, VerCapital::class.java)
                     startActivity(intent)
                 },
@@ -73,7 +80,6 @@ class MainActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    // Navegar a la pantalla de EliminarCapital
                     val intent = Intent(this@MainActivity, EliminarCapital::class.java)
                     startActivity(intent)
                 },
@@ -99,14 +105,6 @@ class MainActivity : ComponentActivity() {
             Text("País: ${capital.paisOrigen}")
             Text("Población: ${capital.cantidad_poblacion}")
             Spacer(modifier = Modifier.height(8.dp))
-        }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun HomePagePreview() {
-        TP2CapitalesTheme {
-            HomePage()
         }
     }
 }

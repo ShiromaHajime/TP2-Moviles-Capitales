@@ -22,7 +22,7 @@ class EliminarCapital : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TP2CapitalesTheme {
-                EliminarCapitalForm() // Invocación de la función @Composable
+                EliminarCapitalForm()
             }
         }
     }
@@ -48,13 +48,19 @@ fun EliminarCapitalForm(modifier: Modifier = Modifier) {
                 .padding(16.dp)
                 .padding(padding)
         ) {
-            // Contenido centralizado
             Column(
                 modifier = Modifier
-                    .align(Alignment.Center) // Centralizar el contenido verticalmente
+                    .align(Alignment.Center)
                     .fillMaxWidth()
             ) {
-                // Campo para eliminar por nombre de la capital
+                Text(
+                    text = "Eliminar una Capital",
+                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 16.dp)
+                )
                 OutlinedTextField(
                     value = nombreCapital,
                     onValueChange = { nombreCapital = it },
@@ -93,7 +99,6 @@ fun EliminarCapitalForm(modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Campo para eliminar por nombre del país
                 OutlinedTextField(
                     value = nombrePais,
                     onValueChange = { nombrePais = it },
@@ -107,7 +112,6 @@ fun EliminarCapitalForm(modifier: Modifier = Modifier) {
                             coroutineScope.launch {
                                 isProcessing = true
 
-                                // Consultar todas las capitales del país
                                 val capitalsInCountry = db.capitalDao().loadAllByCountry(nombrePais).firstOrNull()
 
                                 if (!capitalsInCountry.isNullOrEmpty()) {
@@ -132,27 +136,18 @@ fun EliminarCapitalForm(modifier: Modifier = Modifier) {
                 }
             }
 
-            // Botón en el margen inferior
             Button(
                 onClick = {
                     val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)
                 },
                 modifier = Modifier
-                    .align(Alignment.BottomCenter) // Alinear el botón en la parte inferior
+                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
                 Text("Volver al inicio")
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun EliminarCapitalPreview() {
-    TP2CapitalesTheme {
-        EliminarCapitalForm()
     }
 }
